@@ -16,7 +16,7 @@ MySQLInterface::~MySQLInterface()
 }
 
 //Á¬½ÓMySQL
-bool MySQLInterface::connectMySQL(const char* server, const char* username, const char* password, char* database, const int port)
+bool MySQLInterface::connectMySQL(const char* server, const char* username, const char* password, const char* database, const int port)
 {
 	if (mysql_real_connect(&mysqlInstance, server, username, password, database, port, 0, 0) != NULL)
 		return true;

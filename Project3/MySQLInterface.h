@@ -18,7 +18,7 @@ public:
 	MySQLInterface();
 	virtual ~MySQLInterface();
 
-	bool connectMySQL(const char* server, const char* username, const char* password, char* database, const int port);
+	bool connectMySQL(const char* server, const char* username, const char* password, const char* database, const int port);
 	bool createDatabase(std::string& dbname);
 	bool createdbTable(const std::string& query);
 

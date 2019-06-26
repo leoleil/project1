@@ -18,36 +18,96 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="MessageParser.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="socket.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Database.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="VspdCTOMySQL.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="MySQLInterface.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="assignment.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="AllocationMessage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Message.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Socket.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="StringNumUtils.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="cancelAssignment.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="CancelMessage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DownMessage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="UpMessage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ack.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="AckSocket.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ACKMessage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="tele.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TeleSocket.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MessageParser.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="socket.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Database.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="VspdCTOMySQL.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="MySQLInterface.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="assignment.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="AllocationMessage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Message.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Socket.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="StringNumUtils.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="cancelAssignment.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CancelMessage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DownMessage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="UpMessage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ack.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="AckSocket.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ACKMessage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="tele.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TeleSocket.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
