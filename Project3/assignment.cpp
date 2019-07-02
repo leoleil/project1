@@ -8,13 +8,13 @@
 DWORD WINAPI assignment(LPVOID lpParameter) {
 	const char SERVER[10] = "127.0.0.1";//连接的数据库ip
 	const char USERNAME[10] = "root";
-	const char PASSWORD[10] = "";
+	const char PASSWORD[10] = "123456";
 	const char DATABASE[20] = "satellite_message";
 	const int PORT = 3306;
 	while (1) {
 		//5秒监测数据库的任务分配表
 		Sleep(5000);
-		cout << "| 任务分配         | 监测数据库分配表..." << endl;
+		cout << "| 任务分配模块     | 监测数据库分配表..." << endl;
 		MySQLInterface mysql;
 		if (mysql.connectMySQL(SERVER, USERNAME, PASSWORD, DATABASE, PORT)) {
 			string selectSql = "select 任务编号,任务类型,unix_timestamp(计划开始时间),unix_timestamp(计划截止时间),卫星编号,地面站编号 from 任务分配表 where 分发标志 = 1";
@@ -30,7 +30,7 @@ DWORD WINAPI assignment(LPVOID lpParameter) {
 				int messageDataSize = 0;
 				if (dataSet[i][1]._Equal("101")) {
 					//如果是遥控分配报文需要查报文数据
-					string dadaSql = "select 遥控内容 from 遥控内容表 where 任务编号 =" + dataSet[i][0];
+					string dadaSql = "select 任务内容 from 遥控内容表 where 任务编号 =" + dataSet[i][0];
 					vector<vector<string>> dataBlob;
 					mysql.getDatafromDB(dadaSql, dataBlob);
 					if (dataBlob.size() == 0)continue;
@@ -78,14 +78,20 @@ DWORD WINAPI assignment(LPVOID lpParameter) {
 				message.createMessage(sendBuf, returnSize, bufSize);
 				if (socketer.sendMessage(sendBuf, bufSize) == -1)continue;
 
-				cout << "| 任务分配         | "<< dataSet[i][0] << "号任务分配成功" << endl;
+				cout << "| 任务分配模块     | "<< dataSet[i][0] << "号任务分配成功" << endl;
+
+				//写日志
+				string sql_date = "insert into 系统日志表 (对象,事件类型,参数) values ('任务分配模块',15000,'";
+				sql_date = sql_date + dataSet[i][0] + "号任务分配成功');";
+				mysql.writeDataToDB(sql_date);
+
 				socketer.offSendServer();
 				//修改数据库分发标志
 				string ackSql = "update 任务分配表 set 分发标志 = 2 where 任务编号 = " + dataSet[i][0];
 				mysql.writeDataToDB(ackSql);
 				
 			}
-
+			mysql.closeMySQL();
 		}
 		else {
 			cout << "| 任务分配         | 连接数据库失败" << endl;

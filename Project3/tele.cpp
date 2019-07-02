@@ -69,8 +69,9 @@ DWORD message_pasing(LPVOID lpParameter)
 {
 	const char SERVER[10] = "127.0.0.1";//连接的数据库ip
 	const char USERNAME[10] = "root";
-	const char PASSWORD[10] = "";
-	const char DATABASE[20] = "satellite_message";
+	const char PASSWORD[10] = "123456";
+	const char DATABASE[20] = "satellite_teledata";
+	const char DATABASE_2[20] = "satellite_message";
 	const int PORT = 3306;
 	unordered_map<string, int> MAP;//用来标记第一个来的数据
 	while (1) {
@@ -92,12 +93,12 @@ DWORD message_pasing(LPVOID lpParameter)
 			UINT16 type;//报文类型
 			UINT16 length;//报文长度
 			memcpy(&type, byte_data, 2);
-			memcpy(&length, byte_data + 2, 2);
+			memcpy(&length, byte_data + 2, 4);
 			//解析数据
 			if (type == 1000) {//定义报文
 							   //解析定义报文
 							   //解析指针
-				int ptr = 4;//已经解析前两个字节
+				int ptr = 6;
 							//时间戳
 				long long timestamp;
 				memcpy(&timestamp, byte_data + ptr, sizeof(long long));
@@ -113,6 +114,16 @@ DWORD message_pasing(LPVOID lpParameter)
 				//设备名
 				char name[40];
 				memcpy(name, byte_data + ptr, 40);
+
+				//写入日志
+				MySQLInterface date_db;
+				if (date_db.connectMySQL(SERVER, USERNAME, PASSWORD, DATABASE, PORT)) {
+					string sql_difinition = "insert into 系统日志表 (对象,事件类型,参数) values ('通信模块',11010,'通信中心机收到";
+					sql_difinition = sql_difinition + name + "遥测报表定义报文');";
+					date_db.writeDataToDB(sql_difinition);
+					date_db.closeMySQL();
+				}
+
 				cout << "| 通信模块 | ";
 				cout << getTime();
 				cout << "| 接收定义报文";
@@ -203,7 +214,7 @@ DWORD message_pasing(LPVOID lpParameter)
 						}
 						//创建该数据的表
 						string d_sql = "create table ";
-						d_sql = d_sql+ satillitId + name + " (主键 INT AUTO_INCREMENT,时间 BIGINT,";
+						d_sql = d_sql+ satillitId+"_" + name + " (主键 INT AUTO_INCREMENT,时间 BIGINT,";
 						for (int i = 0; i < fields.size(); i++) {
 							d_sql = d_sql + fields[i].name + " " + getType(fields[i].type);
 							if (i != fields.size() - 1)d_sql = d_sql + ",";
@@ -215,8 +226,8 @@ DWORD message_pasing(LPVOID lpParameter)
 							//cout << db->errorInfo << endl;
 						}
 						//创建关系表
-						string r_sql = "insert into 设备关系表(设备名,父设备名) values('";
-						r_sql = r_sql + name + "','" + parentName + "');";
+						string r_sql = "insert into 设备关系表(设备名,父设备名,卫星编号) values('";
+						r_sql = r_sql + name + "','" + parentName + "','"+ satillitId +"');";
 						if (!db.writeDataToDB(r_sql)) {
 							//cout << db->errorNum << endl;
 							//cout << db->errorInfo << endl;
@@ -242,7 +253,7 @@ DWORD message_pasing(LPVOID lpParameter)
 			else if (type == 2000) {
 				//解析数据报文
 				//解析指针
-				int ptr = 4;//已经解析两个字节
+				int ptr = 6;
 							//时间戳
 				long long timestamp;
 				memcpy(&timestamp, byte_data + ptr, sizeof(long long));
@@ -258,10 +269,34 @@ DWORD message_pasing(LPVOID lpParameter)
 				char name[40];
 				memcpy(name, byte_data + ptr, 40);
 				ptr = ptr + 40;
+
+				//写日志
+				if (MAP[name] == 0) {
+					MAP[name] = 1;
+					MySQLInterface date_db;
+					if (date_db.connectMySQL(SERVER, USERNAME, PASSWORD, DATABASE, PORT)) {
+						string sql_data = "insert into 系统日志表 (对象,事件类型,参数) values ('通信模块',11011,'通信中心机收到第一份";
+						sql_data = sql_data + name + "遥测报表数据报文');";
+						cout << "| 通信模块 | ";
+						cout << getTime();
+						cout << "| 接收数据报文";
+						cout.setf(ios::left);
+						cout.width(37);
+						cout << name;
+						cout << "|" << endl;
+						date_db.writeDataToDB(sql_data);
+						date_db.closeMySQL();
+					}
+					
+				}
 				//卫星编号
 				char satillitId[20];
 				memcpy(satillitId, byte_data + ptr, 20);
 				ptr = ptr + 20;
+				//采样时间
+				long long getTime;
+				memcpy(&timestamp, byte_data + ptr, sizeof(long long));
+				ptr = ptr + sizeof(long long);
 				//如果数据库有此字段
 				//识别数据入库
 				MySQLInterface db;
@@ -272,7 +307,7 @@ DWORD message_pasing(LPVOID lpParameter)
 					//查询字段数据类型
 					vector<vector <string>>res;
 					string ff_sql = "select 数据类型,字段名 from 字段定义表 where 设备名=";
-					ff_sql = ff_sql + "'" + name + "'and 卫星编号='"+ satillitId +"' order by 主键;";
+					ff_sql = ff_sql + "'" + name + "'and 卫星编号='"+ satillitId +"' order by id;";
 					if (db.getDatafromDB(ff_sql, res)) {
 						if (res.size() == 0) {
 							cout << name << "设备不存在" << endl;
@@ -280,7 +315,7 @@ DWORD message_pasing(LPVOID lpParameter)
 						//数据库中数据
 						else {
 							string sql = "insert into ";
-							sql = sql + satillitId + name + "(时间,";
+							sql = sql + satillitId + "_" + name + "(时间,";
 							string d_sql = " values(";
 							d_sql = d_sql + to_string(timestamp) + ",";
 							for (int i = 0; i < res.size(); i++) {

@@ -16,15 +16,15 @@ int main(int argc, char* argv[])
 	
 	InitializeCriticalSection(&g_CS);//初始化关键代码段对象
     //创建线程
-	HANDLE hThread1;//ACK
+	//HANDLE hThread1;//ACK
+	//hThread1 = CreateThread(NULL, 0, ack_service, NULL, 0, NULL);
+	//CloseHandle(hThread1);
 	HANDLE hThread2;//任务分配
-	HANDLE hThread3;//遥测
-	hThread1 = CreateThread(NULL, 0, ack_service, NULL, 0, NULL);
 	hThread2 = CreateThread(NULL, 0, assignment, NULL, 0, NULL);
-	hThread3 = CreateThread(NULL, 0, message_rec, NULL, 0, NULL);
-	CloseHandle(hThread1);
 	CloseHandle(hThread2);
-	CloseHandle(hThread3);
+	//HANDLE hThread3;//遥测
+	//hThread3 = CreateThread(NULL, 0, message_rec, NULL, 0, NULL);
+	//CloseHandle(hThread3);
 	while (1) {
 		if (STOP == 1)break;
 	}
