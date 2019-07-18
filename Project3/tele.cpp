@@ -59,7 +59,7 @@ DWORD message_rec(LPVOID lpParameter)
 	CloseHandle(hThread1);
 	while (1) {
 		TeleSocket service;//创建接收任务服务
-		service.createReceiveServer(4999, DATA_MESSAGES);
+		service.createReceiveServer(4996, DATA_MESSAGES);
 	}
 	DeleteCriticalSection(&data_CS);//删除关键代码段对象
 	return 0;
@@ -67,9 +67,9 @@ DWORD message_rec(LPVOID lpParameter)
 
 DWORD message_pasing(LPVOID lpParameter)
 {
-	const char SERVER[10] = "127.0.0.1";//连接的数据库ip
-	const char USERNAME[10] = "root";
-	const char PASSWORD[10] = "123456";
+	const char* SERVER = MYSQL_SERVER.data();//连接的数据库ip
+	const char* USERNAME = MYSQL_USERNAME.data();
+	const char* PASSWORD = MYSQL_PASSWORD.data();
 	const char DATABASE[20] = "satellite_teledata";
 	const char DATABASE_2[20] = "satellite_message";
 	const int PORT = 3306;
@@ -118,13 +118,13 @@ DWORD message_pasing(LPVOID lpParameter)
 				//写入日志
 				MySQLInterface date_db;
 				if (date_db.connectMySQL(SERVER, USERNAME, PASSWORD, DATABASE, PORT)) {
-					string sql_difinition = "insert into 系统日志表 (对象,事件类型,参数) values ('通信模块',11010,'通信中心机收到";
+					string sql_difinition = "insert into 系统日志表 (时间,对象,事件类型,参数) values (now(),'遥测通信模块',11010,'通信中心机收到";
 					sql_difinition = sql_difinition + name + "遥测报表定义报文');";
 					date_db.writeDataToDB(sql_difinition);
 					date_db.closeMySQL();
 				}
 
-				cout << "| 通信模块 | ";
+				cout << "| 卫星遥测         | ";
 				cout << getTime();
 				cout << "| 接收定义报文";
 				cout.setf(ios::left);
@@ -275,7 +275,7 @@ DWORD message_pasing(LPVOID lpParameter)
 					MAP[name] = 1;
 					MySQLInterface date_db;
 					if (date_db.connectMySQL(SERVER, USERNAME, PASSWORD, DATABASE, PORT)) {
-						string sql_data = "insert into 系统日志表 (对象,事件类型,参数) values ('通信模块',11011,'通信中心机收到第一份";
+						string sql_data = "insert into 系统日志表 (时间,对象,事件类型,参数) values (now(),'遥测通信模块',11011,'通信中心机收到第一份";
 						sql_data = sql_data + name + "遥测报表数据报文');";
 						cout << "| 通信模块 | ";
 						cout << getTime();

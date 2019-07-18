@@ -17,6 +17,9 @@
 #include <direct.h>
 
 using namespace std;
+extern string MYSQL_SERVER;//连接的数据库ip
+extern string MYSQL_USERNAME;
+extern string MYSQL_PASSWORD;
 const int M = 1048576;//1M
 const int K = 1024;   //1K
 const double NEW_NULL = 1000000000;//这个数代表NULL

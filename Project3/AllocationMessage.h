@@ -15,7 +15,7 @@ private:
 	long long taskEndTime;//计划截至时间
 	char satelliteId[20];//卫星编号
 	char groundStationId[20];//地面站编号
-	int messageSize;//报文长度
+	int messageSize = 0;//报文长度
 	char* message;//报文内容
 public:
 	UINT32 getterTaskNum();

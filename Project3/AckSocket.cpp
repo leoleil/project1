@@ -5,7 +5,9 @@
 #include "MySQLInterface.h"
 #include "ACKMessage.h"
 using namespace std;
-
+extern string MYSQL_SERVER;//连接的数据库ip
+extern string MYSQL_USERNAME;
+extern string MYSQL_PASSWORD;
 
 AckSocket::AckSocket()
 {
@@ -111,11 +113,11 @@ int AckSocket::createReceiveServer(const int port)
 			}
 
 		}
-
+		
 		//将获取到的数据放入更新到数据库
-		const char SERVER[10] = "127.0.0.1";//连接的数据库ip
-		const char USERNAME[10] = "root";
-		const char PASSWORD[10] = "123456";
+		const char* SERVER = MYSQL_SERVER.data();//连接的数据库ip
+		const char* USERNAME = MYSQL_USERNAME.data();
+		const char* PASSWORD = MYSQL_PASSWORD.data();
 		const char DATABASE[20] = "satellite_message";
 		const int PORT = 3306;
 		MySQLInterface mysql;
@@ -137,9 +139,16 @@ int AckSocket::createReceiveServer(const int port)
 			message.messageParse(val);
 			if (mysql.connectMySQL(SERVER, USERNAME, PASSWORD, DATABASE, PORT)) {
 				string sql = "UPDATE `satellite_message`.`任务分配表` SET `任务开始时间` = FROM_UNIXTIME(" + to_string(message.getTaskStartTime()) + "), `任务结束时间` = FROM_UNIXTIME(" + to_string(message.getTaskEndTime()) + "), `ACK` = " + to_string(message.getACK()) + " WHERE `任务编号` = " + to_string(message.getTaskNum()) + ";";
-
+				mysql.writeDataToDB(sql);
+				if (message.getACK() == 1200) {
+					sql = "UPDATE `satellite_message`.`任务分配表` SET `任务状态` = 5 WHERE `任务编号` = " + to_string(message.getTaskNum()) + ";";
+				}
+				else{
+					sql = "UPDATE `satellite_message`.`任务分配表` SET `任务状态` = 6 WHERE `任务编号` = " + to_string(message.getTaskNum()) + ";";
+				}
 				mysql.writeDataToDB(sql);
 				cout << "| ACK 接收         | 成功" << endl;
+				mysql.closeMySQL();
 			}
 			else {
 				cout << "| ACK 接收         | 数据库连接失败" << endl;

@@ -12,7 +12,7 @@ MySQLInterface::MySQLInterface() :
 
 MySQLInterface::~MySQLInterface()
 {
-
+	mysql_close(&mysqlInstance);
 }
 
 //Á¬½ÓMySQL

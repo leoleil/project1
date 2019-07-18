@@ -135,6 +135,7 @@
     <ClCompile Include="AckSocket.cpp" />
     <ClCompile Include="AllocationMessage.cpp" />
     <ClCompile Include="assignment.cpp" />
+    <ClCompile Include="cancel.cpp" />
     <ClCompile Include="cancelAssignment.cpp" />
     <ClCompile Include="CancelMessage.cpp" />
     <ClCompile Include="DownMessage.cpp" />
@@ -153,6 +154,7 @@
     <ClInclude Include="AckSocket.h" />
     <ClInclude Include="AllocationMessage.h" />
     <ClInclude Include="assignment.h" />
+    <ClInclude Include="cancel.h" />
     <ClInclude Include="cancelAssignment.h" />
     <ClInclude Include="CancelMessage.h" />
     <ClInclude Include="DownMessage.h" />

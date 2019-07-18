@@ -2,7 +2,11 @@
 #include <iostream> 
 #include <sstream>
 #include <string>
+#include "MySQLInterface.h"
 using namespace std;
+extern string MYSQL_SERVER;
+extern string MYSQL_USERNAME;
+extern string MYSQL_PASSWORD;
 extern CRITICAL_SECTION data_CS;//全局关键代码段对象
 extern vector<message_buf> DATA_MESSAGES;//全局上传数据报文池
 
@@ -17,7 +21,21 @@ TeleSocket::~TeleSocket()
 
 int TeleSocket::createReceiveServer(const int port, std::vector<message_buf>& message)
 {
-	cout << "| 数据下行         | 服务启动" << endl;
+	const char* SERVER = MYSQL_SERVER.data();//连接的数据库ip
+	const char* USERNAME = MYSQL_USERNAME.data();
+	const char* PASSWORD = MYSQL_PASSWORD.data();
+	const char DATABASE[20] = "satellite_teledata";
+	const char DATABASE_2[20] = "satellite_message";
+	const int PORT = 3306;
+	MySQLInterface mysql;
+	if (mysql.connectMySQL(SERVER, USERNAME, PASSWORD, DATABASE, PORT)) {
+
+	}
+	else {
+		cout << "| 卫星遥测         | 数据库连接失败" << endl;
+		return 0;
+	}
+	cout << "| 卫星遥测         | 服务启动" << endl;
 	//初始化套结字动态库  
 	if (WSAStartup(MAKEWORD(2, 2), &S_wsd) != 0)
 	{
@@ -49,7 +67,7 @@ int TeleSocket::createReceiveServer(const int port, std::vector<message_buf>& me
 	}
 
 	//开始监听   
-	cout << "| 数据下行         | listening" << endl;
+	cout << "| 卫星遥测         | listening" << endl;
 	retVal = listen(sServer, 1);
 
 	if (SOCKET_ERROR == retVal)
@@ -72,7 +90,7 @@ int TeleSocket::createReceiveServer(const int port, std::vector<message_buf>& me
 		return -1;
 	}
 
-	cout << "| 数据下行         | TCP连接创建" << endl;
+	cout << "| 卫星遥测         | TCP连接创建" << endl;
 	while (true) {
 		//数据窗口
 		const int data_len = 66560;//每次接收65K数据包
@@ -90,13 +108,13 @@ int TeleSocket::createReceiveServer(const int port, std::vector<message_buf>& me
 
 			if (SOCKET_ERROR == retVal)
 			{
-				cout << "| 数据下行         | 接收程序出错" << endl;
+				cout << "| 卫星遥测         | 接收程序出错" << endl;
 				closesocket(sServer);   //关闭套接字    
 				closesocket(sClient);   //关闭套接字
 				return -1;
 			}
 			if (retVal == 0) {
-				cout << "| 数据下行         | 接收完毕断开本次连接" << endl;
+				cout << "| 卫星遥测         | 接收完毕断开本次连接" << endl;
 				closesocket(sServer);   //关闭套接字    
 				closesocket(sClient);   //关闭套接字
 				return -1;
