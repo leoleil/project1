@@ -7,6 +7,7 @@
 #include "assignment.h"
 #include "ack.h"
 #include "tele.h"
+#include <Windows.h>
 using namespace std;
 
 CRITICAL_SECTION g_CS;//全局关键代码段对象
@@ -16,6 +17,9 @@ string MYSQL_USERNAME = "";
 string MYSQL_PASSWORD = "";
 int main(int argc, char* argv[])
 {
+	HWND hWnd = GetForegroundWindow(); //获取当前的前置窗口
+	//ShowWindow(hWnd, SW_HIDE); //隐藏了获取的窗口.
+
 	ifstream is("config.txt", ios::in);
 	if (!is.is_open()) {
 		cout << "| 数据库连接       | ";
@@ -41,6 +45,8 @@ int main(int argc, char* argv[])
 	CloseHandle(hThread3);
 	while (1) {
 		if (STOP == 1)break;
+		
+		//Sleep(40000);//主线程函数静默4秒
 	}
 
 	Sleep(4000);//主线程函数静默4秒

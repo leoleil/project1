@@ -117,7 +117,7 @@ DWORD message_pasing(LPVOID lpParameter)
 
 				//写入日志
 				MySQLInterface date_db;
-				if (date_db.connectMySQL(SERVER, USERNAME, PASSWORD, DATABASE, PORT)) {
+				if (date_db.connectMySQL(SERVER, USERNAME, PASSWORD, DATABASE_2, PORT)) {
 					string sql_difinition = "insert into 系统日志表 (时间,对象,事件类型,参数) values (now(),'遥测通信模块',11010,'通信中心机收到";
 					sql_difinition = sql_difinition + name + "遥测报表定义报文');";
 					date_db.writeDataToDB(sql_difinition);
@@ -274,7 +274,7 @@ DWORD message_pasing(LPVOID lpParameter)
 				if (MAP[name] == 0) {
 					MAP[name] = 1;
 					MySQLInterface date_db;
-					if (date_db.connectMySQL(SERVER, USERNAME, PASSWORD, DATABASE, PORT)) {
+					if (date_db.connectMySQL(SERVER, USERNAME, PASSWORD, DATABASE_2, PORT)) {
 						string sql_data = "insert into 系统日志表 (时间,对象,事件类型,参数) values (now(),'遥测通信模块',11011,'通信中心机收到第一份";
 						sql_data = sql_data + name + "遥测报表数据报文');";
 						cout << "| 通信模块 | ";

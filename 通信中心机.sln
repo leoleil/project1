@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project3", "Project3\Project3.vcxproj", "{DE5CE2C6-4BD5-4F9C-9AA6-BDB6BC4F4B18}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "通信中心机", "Project3\Project3.vcxproj", "{DE5CE2C6-4BD5-4F9C-9AA6-BDB6BC4F4B18}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup1", "Setup1\Setup1.vdproj", "{AF621F24-CD79-438D-8B11-43E23B171B65}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup通信中心机", "Setup通信中心机\Setup通信中心机.vdproj", "{CDB72CB8-F549-43B3-A466-2ABE32D53CE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{DE5CE2C6-4BD5-4F9C-9AA6-BDB6BC4F4B18}.Release|x64.Build.0 = Release|x64
 		{DE5CE2C6-4BD5-4F9C-9AA6-BDB6BC4F4B18}.Release|x86.ActiveCfg = Release|Win32
 		{DE5CE2C6-4BD5-4F9C-9AA6-BDB6BC4F4B18}.Release|x86.Build.0 = Release|Win32
-		{AF621F24-CD79-438D-8B11-43E23B171B65}.Debug|x64.ActiveCfg = Debug
-		{AF621F24-CD79-438D-8B11-43E23B171B65}.Debug|x86.ActiveCfg = Debug
-		{AF621F24-CD79-438D-8B11-43E23B171B65}.Release|x64.ActiveCfg = Release
-		{AF621F24-CD79-438D-8B11-43E23B171B65}.Release|x86.ActiveCfg = Release
+		{CDB72CB8-F549-43B3-A466-2ABE32D53CE0}.Debug|x64.ActiveCfg = Debug
+		{CDB72CB8-F549-43B3-A466-2ABE32D53CE0}.Debug|x86.ActiveCfg = Debug
+		{CDB72CB8-F549-43B3-A466-2ABE32D53CE0}.Release|x64.ActiveCfg = Release
+		{CDB72CB8-F549-43B3-A466-2ABE32D53CE0}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
