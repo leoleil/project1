@@ -91,6 +91,10 @@ int TeleSocket::createReceiveServer(const int port, std::vector<message_buf>& me
 	}
 
 	cout << "| 卫星遥测         | TCP连接创建" << endl;
+	//写日志
+	string logSql = "insert into 系统日志表 (时间,对象,事件类型,参数) values (now(),'遥测通信模块',11000,'建立TCP连接');";
+	mysql.writeDataToDB(logSql);
+	//接收数据
 	while (true) {
 		//数据窗口
 		const int data_len = 66560;//每次接收65K数据包
@@ -115,6 +119,9 @@ int TeleSocket::createReceiveServer(const int port, std::vector<message_buf>& me
 			}
 			if (retVal == 0) {
 				cout << "| 卫星遥测         | 接收完毕断开本次连接" << endl;
+				//写日志
+				logSql = "insert into 系统日志表 (时间,对象,事件类型,参数) values (now(),'遥测通信模块',11001,'断开TCP连接');";
+				mysql.writeDataToDB(logSql);
 				closesocket(sServer);   //关闭套接字    
 				closesocket(sClient);   //关闭套接字
 				return -1;

@@ -97,6 +97,7 @@ DWORD WINAPI assignment(LPVOID lpParameter) {
 				}
 				mysql.writeDataToDB(ackSql);
 				mysql.writeDataToDB(logSql);
+				
 			}
 			mysql.closeMySQL();
 		}
