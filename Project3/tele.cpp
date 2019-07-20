@@ -295,7 +295,7 @@ DWORD message_pasing(LPVOID lpParameter)
 				ptr = ptr + 20;
 				//采样时间
 				long long getTime;
-				memcpy(&timestamp, byte_data + ptr, sizeof(long long));
+				memcpy(&getTime, byte_data + ptr, sizeof(long long));
 				ptr = ptr + sizeof(long long);
 				//如果数据库有此字段
 				//识别数据入库
