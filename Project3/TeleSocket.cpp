@@ -125,6 +125,7 @@ int TeleSocket::createReceiveServer(const int port, std::vector<message_buf>& me
 				closesocket(sClient);   //¹Ø±ÕÌ×½Ó×Ö
 				return -1;
 			}
+			Sleep(10);
 			memcpy(data_ptr, buf, retVal);
 			r_len = r_len + retVal;
 

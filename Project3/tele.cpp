@@ -232,7 +232,7 @@ DWORD message_pasing(LPVOID lpParameter)
 							//cout << db->errorNum << endl;
 							//cout << db->errorInfo << endl;
 						}
-						//Sleep(10);
+						
 						//将该报文删除
 						EnterCriticalSection(&data_CS);//进入关键代码段
 													//报文池-1
