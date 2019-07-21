@@ -21,8 +21,8 @@ string MYSQL_PASSWORD = "";
 #define IDR_ABOUT 13
 #define IDR_HIDE 14
 #define IDR_SHOW 15
-LPCTSTR szAppClassName = TEXT("服务程序");
-LPCTSTR szAppWindowName = TEXT("服务程序");
+LPCTSTR szAppClassName = TEXT("通信中心机服务程序");
+LPCTSTR szAppWindowName = TEXT("通信中心机服务程序");
 HMENU hmenu;//菜单句柄
 HWND hwnd_head = GetForegroundWindow();//使hwnd代表最前端的窗口
 
