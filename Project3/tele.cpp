@@ -180,6 +180,13 @@ DWORD message_pasing(LPVOID lpParameter)
 					}
 					if (res.size() != 0) {
 						cout << name << "设备在定义表中已经存在" << endl;
+						//将该报文删除
+						EnterCriticalSection(&data_CS);//进入关键代码段
+													   //报文池-1
+						DATA_MESSAGES.erase(DATA_MESSAGES.begin() + i);
+						i--;
+						LeaveCriticalSection(&data_CS);//离开关键代码段
+
 					}
 					else {
 						//不存在则创建
