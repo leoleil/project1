@@ -321,7 +321,7 @@ DWORD message_pasing(LPVOID lpParameter)
 						}
 						//数据库中数据
 						else {
-							string sql = "insert into ";
+							string sql = "insert into satellite_teledata.";
 							sql = sql + satillitId + "_" + name + "(时间,";
 							string d_sql = " values(";
 							d_sql = d_sql + to_string(timestamp) + ",";
