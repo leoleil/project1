@@ -143,6 +143,9 @@ int AckSocket::createReceiveServer(const int port)
 				if (message.getACK() == 1200) {
 					sql = "UPDATE `satellite_message`.`任务分配表` SET `任务状态` = 5 WHERE `任务编号` = " + to_string(message.getTaskNum()) + ";";
 				}
+				else if (message.getACK() == 1100) {
+					sql = "UPDATE `satellite_message`.`任务分配表` SET `任务状态` = 7 WHERE `任务编号` = " + to_string(message.getTaskNum()) + ";";
+				}
 				else{
 					sql = "UPDATE `satellite_message`.`任务分配表` SET `任务状态` = 6 WHERE `任务编号` = " + to_string(message.getTaskNum()) + ";";
 				}
